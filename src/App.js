@@ -3,6 +3,7 @@ import "./App.css";
 import Contact from "./Components/Contact";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
+import InputField from "./Components/SaveTextFieldValue.js";
 
 
 function App() {
@@ -51,9 +52,7 @@ function App() {
     }
     return "Search employees";
   };
-
   getData(`${fetchPath}`);
-
   return (
     <>
       <SectionHeader />
@@ -65,21 +64,22 @@ function App() {
           </MDBCol>
         </MDBRow>
         <MDBRow>
-          <input
-            className="lcv-searchbar"
-            type="text"
-            placeholder="Search contact by typing.."
-          />
+          <InputField />
           <MDBBtn>Sweden</MDBBtn>
           <MDBBtn>USA</MDBBtn>
           <MDBBtn>Department?</MDBBtn>
         </MDBRow>
         <MDBRow>
+        <div>
+      {fetchedPeople.map((thing, index) => (
+          <Contact key={index} {...thing} />
+      ))}
+      </div>
           <Contact />
         </MDBRow>
       </MDBContainer>
     </>
   );
 }
-
+ 
 export default App;
