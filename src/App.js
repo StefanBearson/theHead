@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Contact from "./Components/Contact";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import { MDBContainer, MDBRow } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
 import InputField from "./Components/SaveTextFieldValue.js";
+import {
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem
+} from "mdbreact";
 
 import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 
 function App() {
   const hostUrl = "https://localhost:44319/";
   const [pageTitle, setPageTitle] = useState("");
-  const [fetchPath, setFetchPath] = useState("people");
+  const [fetchPath, setFetchPath] = useState("people/sweden");
   const [fetchedPeople, setFetchedPeople] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getData(`${fetchPath}`);
-  },[]);
+  }, []);
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -35,7 +41,6 @@ function App() {
       );
       console.table(departments.flat([2]));
       return departments.flat([2]);
-      
     }
     if (arrayNesting === 2) {
       let departments = array.departments.map(x => x.people);
@@ -61,30 +66,61 @@ function App() {
     }
     return "Search employees";
   };
+
   return (
     <>
       <SectionHeader />
+      <MDBContainer style={{ marginTop: "2%", marginBottom: "2%" }}>
+        <MDBRow>
+          <MDBDropdown>
+            <MDBDropdownToggle caret color="primary">
+              Countries
+            </MDBDropdownToggle>
+            <MDBDropdownMenu basic>
+              <MDBDropdownItem onClick={() => setFetchPath("people/sweden")}>
+                Sweden
+              </MDBDropdownItem>
+              <MDBDropdownItem onClick={() => setFetchPath("people/usa")}>
+                USA
+              </MDBDropdownItem>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+          <MDBDropdown>
+            <MDBDropdownToggle caret color="primary">
+              Departments
+            </MDBDropdownToggle>
+            <MDBDropdownMenu basic>
+              <MDBDropdownItem
+                onClick={() => setFetchPath("people/sweden/region-syd")}
+              >
+                Region Syd
+              </MDBDropdownItem>
+              <MDBDropdownItem
+                onClick={() => setFetchPath("people/usa/region-west")}
+              >
+                Region WEST
+              </MDBDropdownItem>
+              <MDBDropdownItem
+                onClick={() => setFetchPath("people/usa/region-south")}
+              >
+                Region SOUTH
+              </MDBDropdownItem>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+        </MDBRow>
+      </MDBContainer>
       <MDBContainer>
         <MDBRow>
-          <MDBCol>
-            <h1>Find a specific employee?</h1>
-            <p>Search on department or country</p>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow>
           <InputField />
-          <MDBBtn>Sweden</MDBBtn>
-          <MDBBtn>USA</MDBBtn>
-          <MDBBtn>Department?</MDBBtn>
         </MDBRow>
         <MDBRow>
           {fetchedPeople.map((people, index) => {
-            return <Contact key={index} result={people} />
-          })} 
+            return <Contact key={index} result={people} />;
+          })}
         </MDBRow>
       </MDBContainer>
     </>
   );
 }
- 
+
 export default App;
