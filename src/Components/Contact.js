@@ -7,9 +7,13 @@ import {
   MDBCardText,
   MDBCol
 } from "mdbreact";
+import { number } from "prop-types";
 
 export default props => {
   console.log(props);
+
+  const phoneNumbersArray = props.result.phoneNumbers.split(",");
+  console.log(phoneNumbersArray);
   return (
     <MDBCol>
       <MDBCard style={{ width: "22rem", marginBottom: "2%" }}>
@@ -27,7 +31,10 @@ export default props => {
           </MDBCardTitle>
           <MDBCardText>
             E-Mail: {props.result.eMail} <br />
-            Phone: {props.result.phoneNumbers} <br />
+            {/* Phone: {props.result.phoneNumbers} <br /> */}
+            {phoneNumbersArray.map(number => (
+              <p>phone: {number}</p>
+            ))}
             Department: {props.result.department}
           </MDBCardText>
         </MDBCardBody>
