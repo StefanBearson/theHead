@@ -5,12 +5,17 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
 import InputField from "./Components/SaveTextFieldValue.js";
 
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 
 function App() {
   const hostUrl = "https://localhost:44319/";
   const [pageTitle, setPageTitle] = useState("");
   const [fetchPath, setFetchPath] = useState("people");
   const [fetchedPeople, setFetchedPeople] = useState([]);
+
+  useEffect(()=>{
+    getData(`${fetchPath}`);
+  },[]);
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -19,8 +24,8 @@ function App() {
       x => x.json()
     );
     setPageTitle(getPageTitle(response));
+    setFetchedPeople(getFetchedPeople(response));
     console.log(response);
-    getFetchedPeople(response);
   };
 
   const getFetchedPeople = array => {
@@ -29,14 +34,18 @@ function App() {
         x.departments.map(x => x.people)
       );
       console.table(departments.flat([2]));
+      return departments.flat([2]);
+      
     }
     if (arrayNesting === 2) {
       let departments = array.departments.map(x => x.people);
       console.table(departments.flat([2]));
+      return departments.flat([2]);
     }
     if (arrayNesting === 3) {
       let people = array.people;
       console.table(people.flat([2]));
+      return people.flat([2]);
     }
   };
 
@@ -52,7 +61,6 @@ function App() {
     }
     return "Search employees";
   };
-  getData(`${fetchPath}`);
   return (
     <>
       <SectionHeader />
@@ -70,12 +78,9 @@ function App() {
           <MDBBtn>Department?</MDBBtn>
         </MDBRow>
         <MDBRow>
-        <div>
-      {fetchedPeople.map((thing, index) => (
-          <Contact key={index} {...thing} />
-      ))}
-      </div>
-          <Contact />
+          {fetchedPeople.map((people, index) => {
+            return <Contact key={index} result={people} />
+          })} 
         </MDBRow>
       </MDBContainer>
     </>
