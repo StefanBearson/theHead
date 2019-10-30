@@ -9,13 +9,14 @@ import {
 } from "mdbreact";
 
 export default props => {
+  console.log(props);
   return (
     <MDBCol>
       <MDBCard style={{ width: "22rem", marginBottom: "2%" }}>
         <MDBCardImage
-          className="img-fluid"
+          className='img-fluid'
           style={{ width: "50%", marginLeft: "25%" }}
-          src="http://blog.springfield.k12.or.us/yolanda/files/2009/02/person-placeholder-7.png"
+          src='http://blog.springfield.k12.or.us/yolanda/files/2009/02/person-placeholder-7.png'
           waves
         />
         <MDBCardBody>
