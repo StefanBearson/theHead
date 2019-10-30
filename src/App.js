@@ -141,9 +141,7 @@ function App() {
       </MDBContainer>
       <MDBContainer>
         <MDBRow>
-          <MDBF>
-            <InputField />
-          </Form>
+          <InputField />
         </MDBRow>
         <MDBRow>
           {fetchedPeople.map((people, index) => {
