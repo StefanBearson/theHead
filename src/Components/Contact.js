@@ -5,7 +5,8 @@ import {
   MDBCardImage,
   MDBCardTitle,
   MDBCardText,
-  MDBCol
+  MDBCol,
+  MDBCardFooter
 } from "mdbreact";
 import { number } from "prop-types";
 
@@ -29,6 +30,7 @@ export default props => {
               ? "Name"
               : props.result.firstName + " " + props.result.lastName}
           </MDBCardTitle>
+          <MDBCardText>{props.result.department}</MDBCardText>
           <MDBCardText>
             E-Mail: {props.result.eMail} <br />
             {/* Phone: {props.result.phoneNumbers} <br /> */}
@@ -37,6 +39,9 @@ export default props => {
             ))}
             Department: {props.result.department}
           </MDBCardText>
+          <MDBCardFooter>
+            Shortnumber (Skype): <a>props.result.shortNumber</a>
+          </MDBCardFooter>
         </MDBCardBody>
       </MDBCard>
     </MDBCol>
