@@ -36,20 +36,50 @@ function App() {
 
   const getFetchedPeople = array => {
     if (arrayNesting === 0 || arrayNesting === 1) {
-      let departments = array.countries.map(x =>
-        x.departments.map(x => x.people)
-      );
-      console.table(departments.flat([2]));
+      let departmentsRaw = array.countries.map(x => x.departments);
+      let departments = departmentsRaw.flat([1]).map(x => {
+        return x.people.map(person => {
+          return {
+            firstName: person.firstName,
+            lastName: person.lastName,
+            phoneNumbers: person.phoneNumbers,
+            employmentNumber: person.employmentNumber,
+            eMail: person.eMail,
+            shortNumber: person.shortNumber,
+            department: x.departmentName
+          };
+        });
+      });
       return departments.flat([2]);
     }
     if (arrayNesting === 2) {
-      let departments = array.departments.map(x => x.people);
-      console.table(departments.flat([2]));
+      let departments = array.departments.map(x => {
+        return x.people.map(person => {
+          return {
+            firstName: person.firstName,
+            lastName: person.lastName,
+            phoneNumbers: person.phoneNumbers,
+            employmentNumber: person.employmentNumber,
+            eMail: person.eMail,
+            shortNumber: person.shortNumber,
+            department: x.departmentName
+          };
+        });
+      });
       return departments.flat([2]);
     }
     if (arrayNesting === 3) {
-      let people = array.people;
-      console.table(people.flat([2]));
+      let people = array.people.map(person => {
+        return {
+          firstName: person.firstName,
+          lastName: person.lastName,
+          phoneNumbers: person.phoneNumbers,
+          employmentNumber: person.employmentNumber,
+          eMail: person.eMail,
+          shortNumber: person.shortNumber,
+          department: array.departmentName
+        };
+      });
       return people.flat([2]);
     }
   };
@@ -111,7 +141,9 @@ function App() {
       </MDBContainer>
       <MDBContainer>
         <MDBRow>
-          <InputField />
+          <MDBF>
+            <InputField />
+          </Form>
         </MDBRow>
         <MDBRow>
           {fetchedPeople.map((people, index) => {
