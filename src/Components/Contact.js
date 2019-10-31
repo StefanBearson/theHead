@@ -18,8 +18,19 @@ export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
   const [modal, setModal] = useState(false);
 
+  var number =
+    props.result.employmentNumber[0] + props.result.employmentNumber[1];
+
+  var photonumber = number.replace("0", 1);
+
+  console.log("1: ", props.result.employmentNumber[0]);
+  console.log("2: ", props.result.employmentNumber[1]);
+  console.log("3: ", number);
+
   var image =
-    "http://lorempixel.com/200/200/people/" + Math.floor(Math.random() * 11);
+    "https://randomuser.me/api/portraits/med/men/" +
+    Math.floor(Math.random() * 100) +
+    ".jpg";
   return (
     <MDBCol
       lg='4'
@@ -28,9 +39,13 @@ export default props => {
       key={Math.random() * 10000000000}
     >
       <img
+        // src={
+        //   "https://randomuser.me/api/portraits/med/men/" +
+        //   Math.floor(Math.random() * 100) +
+        //   ".jpg"
+        // }
         src={
-          "http://lorempixel.com/200/200/people/" +
-          Math.floor(Math.random() * 10)
+          "https://randomuser.me/api/portraits/med/men/" + photonumber + ".jpg"
         }
         style={{
           width: "100px",
@@ -108,8 +123,31 @@ export default props => {
         </MDBCardBody>
       </MDBCard>
       <MDBModal isOpen={modal}>
-        <MDBModalHeader className='blue-gradient'>
-          {props.result.firstName + " " + props.result.lastName}
+        <MDBModalHeader className='blue-gradient' style={{ height: "160px" }}>
+          <img
+            src={
+              "https://randomuser.me/api/portraits/men/" + photonumber + ".jpg"
+            }
+            style={{
+              width: "200px",
+              height: "200px",
+              position: "relative",
+              top: "-40px",
+              left: "-120px",
+              borderRadius: "30% 20px 20px 30% ",
+              zIndex: 1
+            }}
+          ></img>
+          <span
+            style={{
+              position: "relative",
+              top: "-40px",
+              left: "-118px",
+              color: "white"
+            }}
+          >
+            {props.result.firstName + " " + props.result.lastName}
+          </span>
         </MDBModalHeader>
         <MDBModalBody>
           Department: {props.result.department}
