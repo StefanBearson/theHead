@@ -18,7 +18,7 @@ import {
 export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
   const [modal, setModal] = useState(false);
-
+  console.log(props);
   var image =
     "http://lorempixel.com/200/200/people/" + Math.floor(Math.random() * 11);
   console.log(image);
@@ -98,6 +98,7 @@ export default props => {
           Department: {props.result.department}
           <br />
           E-Mail: {props.result.eMail} <br />
+          Employment Number: {props.result.employmentNumber}
           {phoneNumbersArray.map(number => (
             <p key={Math.random() * 10000000000} style={{ margin: 0 }}>
               Phone: {number}
