@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   MDBCard,
   MDBCardBody,
-  MDBCardImage,
   MDBCardTitle,
   MDBCardText,
   MDBCol,
@@ -18,10 +17,9 @@ import {
 export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
   const [modal, setModal] = useState(false);
-  console.log(props);
+
   var image =
     "http://lorempixel.com/200/200/people/" + Math.floor(Math.random() * 11);
-  console.log(image);
   return (
     <MDBCol
       lg='4'
@@ -43,6 +41,7 @@ export default props => {
           borderRadius: "50%",
           zIndex: 1
         }}
+        alt='face'
       ></img>
       <MDBCard style={{ margin: "8px" }}>
         {/* <MDBCardImage
@@ -93,7 +92,7 @@ export default props => {
             key={Math.random() * 10000000000}
             style={{ paddingLeft: "8px" }}
           >
-            internal number: {props.result.shortNumber}
+            Internal Phone: {props.result.shortNumber}
           </MDBCardText>
           <MDBCardFooter key={Math.random() * 10000000000} className='center'>
             <MDBBtn
