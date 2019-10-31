@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -42,7 +42,7 @@ export default props => {
           }}
           src={
             "http://lorempixel.com/200/200/people/" +
-            Math.floor(Math.random() * 11)
+            Math.floor(Math.random() * 10)
           }
           waves
         />
@@ -52,9 +52,9 @@ export default props => {
             style={{
               color: "white",
               margin: "0",
-              paddingLeft: "8px",
-              backgroundColor: "lightgray"
+              paddingLeft: "8px"
             }}
+            className='blue-gradient'
           >
             {props.result.firstName === undefined
               ? "Name"
@@ -65,7 +65,7 @@ export default props => {
             style={{
               color: "white",
               margin: 0,
-              backgroundColor: "gray",
+              backgroundColor: "lightgray",
               paddingLeft: "8px"
             }}
           >
@@ -75,17 +75,25 @@ export default props => {
             key={Math.random() * 10000000000}
             style={{ paddingLeft: "8px" }}
           >
-            InternNumber: {props.result.shortNumber}
+            internal number: {props.result.shortNumber}
           </MDBCardText>
-          <MDBCardFooter key={Math.random() * 10000000000}>
-            <a onClick={() => setModal(true)} style={{ color: "blue" }}>
-              More Info
-            </a>
+          <MDBCardFooter key={Math.random() * 10000000000} center>
+            <Fragment>
+              <MDBBtn
+                onClick={() => setModal(true)}
+                outline
+                color='info'
+                size='sm'
+                style={{ margin: "auto" }}
+              >
+                More Info
+              </MDBBtn>
+            </Fragment>
           </MDBCardFooter>
         </MDBCardBody>
       </MDBCard>
       <MDBModal isOpen={modal}>
-        <MDBModalHeader>
+        <MDBModalHeader className='blue-gradient'>
           {props.result.firstName + " " + props.result.lastName}
         </MDBModalHeader>
         <MDBModalBody>
@@ -99,7 +107,12 @@ export default props => {
           ))}
         </MDBModalBody>
         <MDBModalFooter>
-          <MDBBtn color='secondary' onClick={() => setModal(false)}>
+          <MDBBtn
+            color='secondary'
+            outline
+            size='sm'
+            onClick={() => setModal(false)}
+          >
             Close
           </MDBBtn>
         </MDBModalFooter>
