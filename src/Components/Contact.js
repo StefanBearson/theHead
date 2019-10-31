@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -6,12 +6,22 @@ import {
   MDBCardTitle,
   MDBCardText,
   MDBCol,
-  MDBCardFooter
+  MDBCardFooter,
+  MDBModal,
+  MDBModalHeader,
+  MDBModalBody,
+  MDBModalFooter,
+  MDBBtn
 } from "mdbreact";
 // import { number } from "prop-types";
 
 export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => {
+    console.log("modal");
+  };
 
   return (
     <MDBCol
@@ -24,6 +34,7 @@ export default props => {
         <MDBCardImage
           key={Math.random() * 10000000000}
           className='img-fluid'
+          onClick={() => setModal(true)}
           style={{ width: "20%", marginLeft: "40%", padding: "8px 0" }}
           src='http://blog.springfield.k12.or.us/yolanda/files/2009/02/person-placeholder-7.png'
           waves
@@ -35,7 +46,7 @@ export default props => {
               color: "white",
               margin: "0",
               paddingLeft: "8px",
-              backgroundColor: "gray"
+              backgroundColor: "lightgray"
             }}
           >
             {props.result.firstName === undefined
@@ -57,21 +68,35 @@ export default props => {
             key={Math.random() * 10000000000}
             style={{ paddingLeft: "8px" }}
           >
-            E-Mail: {props.result.eMail} <br />
-            {/* Phone: {props.result.phoneNumbers} <br /> */}
-            {phoneNumbersArray.map(number => (
-              <p key={Math.random() * 10000000000} style={{ margin: 0 }}>
-                Phone: {number}
-              </p>
-            ))}
-            Department: {props.result.department}
+            InternNumber: {props.result.shortNumber}
           </MDBCardText>
           <MDBCardFooter key={Math.random() * 10000000000}>
-            Shortnumber (Skype):{" "}
-            <a style={{ color: "blue" }}>{props.result.shortNumber}</a>
+            <a onClick={() => setModal(true)} style={{ color: "blue" }}>
+              More Info
+            </a>
           </MDBCardFooter>
         </MDBCardBody>
       </MDBCard>
+      <MDBModal isOpen={modal} toggle={toggle()}>
+        <MDBModalHeader>
+          {props.result.firstName + " " + props.result.lastName}
+        </MDBModalHeader>
+        <MDBModalBody>
+          Department: {props.result.department}
+          <br />
+          E-Mail: {props.result.eMail} <br />
+          {phoneNumbersArray.map(number => (
+            <p key={Math.random() * 10000000000} style={{ margin: 0 }}>
+              Phone: {number}
+            </p>
+          ))}
+        </MDBModalBody>
+        <MDBModalFooter>
+          <MDBBtn color='secondary' onClick={() => setModal(false)}>
+            Close
+          </MDBBtn>
+        </MDBModalFooter>
+      </MDBModal>
     </MDBCol>
   );
 };
