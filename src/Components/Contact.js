@@ -19,10 +19,9 @@ export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
   const [modal, setModal] = useState(false);
 
-  const toggle = () => {
-    console.log("modal");
-  };
-
+  var image =
+    "http://lorempixel.com/200/200/people/" + Math.floor(Math.random() * 11);
+  console.log(image);
   return (
     <MDBCol
       lg='4'
@@ -35,8 +34,16 @@ export default props => {
           key={Math.random() * 10000000000}
           className='img-fluid'
           onClick={() => setModal(true)}
-          style={{ width: "20%", marginLeft: "40%", padding: "8px 0" }}
-          src='http://blog.springfield.k12.or.us/yolanda/files/2009/02/person-placeholder-7.png'
+          style={{
+            width: "20%",
+            marginLeft: "40%",
+            padding: "8px 0",
+            borderRadius: "50%"
+          }}
+          src={
+            "http://lorempixel.com/200/200/people/" +
+            Math.floor(Math.random() * 11)
+          }
           waves
         />
         <MDBCardBody style={{ padding: 0 }} key={Math.random() * 10000000000}>
@@ -77,7 +84,7 @@ export default props => {
           </MDBCardFooter>
         </MDBCardBody>
       </MDBCard>
-      <MDBModal isOpen={modal} toggle={toggle()}>
+      <MDBModal isOpen={modal}>
         <MDBModalHeader>
           {props.result.firstName + " " + props.result.lastName}
         </MDBModalHeader>
