@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     getData(`${fetchPath}`);
-  }, []);
+  }, [fetchPath]);
 
   const arrayNesting = fetchPath.split("/").length;
 
