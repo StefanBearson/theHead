@@ -8,11 +8,14 @@ export default class InputField extends React.Component{
         }
     }
     
-    handleChange(event) {
-        this.setState({value: event.target.value})
-        console.log(event.target.value);
-    }  
-    
+    handleKeyPress = e => {
+        // We pass the new value of the text when calling onAccept
+        if (e.key === "Enter") {
+            console.log("Enter Pressed")
+            this.setState({value: e.target.value})
+            console.log("Value Saved: "+ e.target.value);
+        }
+    }
     render(){
         const style = {
             width: "90%",
@@ -31,9 +34,9 @@ export default class InputField extends React.Component{
             <div style={divstyle}>
                 <input
             style={style}
+            onKeyPress={this.handleKeyPress}
             type="text"
             placeholder="Search contact by typing.."
-            onBlur={this.handleChange.bind(this)}
           />
             </div>
         )
