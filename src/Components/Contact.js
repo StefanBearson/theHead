@@ -29,30 +29,48 @@ export default props => {
       style={{ padding: 0 }}
       key={Math.random() * 10000000000}
     >
+      <img
+        src={
+          "http://lorempixel.com/200/200/people/" +
+          Math.floor(Math.random() * 10)
+        }
+        style={{
+          width: "100px",
+          height: "100px",
+          position: "relative",
+          top: "30px",
+          left: "10px",
+          borderRadius: "50%",
+          zIndex: 1
+        }}
+      ></img>
       <MDBCard style={{ margin: "8px" }}>
-        <MDBCardImage
+        {/* <MDBCardImage
           key={Math.random() * 10000000000}
           className='img-fluid'
           onClick={() => setModal(true)}
           style={{
             width: "20%",
+
             marginLeft: "40%",
             padding: "8px 0",
-            borderRadius: "50%"
+            borderRadius: "50%",
+            position: "relative",
+            top: ""
           }}
           src={
             "http://lorempixel.com/200/200/people/" +
             Math.floor(Math.random() * 10)
           }
           waves
-        />
+        /> */}
         <MDBCardBody style={{ padding: 0 }} key={Math.random() * 10000000000}>
           <MDBCardTitle
             key={Math.random() * 10000000000}
             style={{
               color: "white",
               margin: "0",
-              paddingLeft: "8px"
+              paddingLeft: "90px"
             }}
             className='blue-gradient'
           >
