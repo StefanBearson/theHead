@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -77,18 +77,16 @@ export default props => {
           >
             internal number: {props.result.shortNumber}
           </MDBCardText>
-          <MDBCardFooter key={Math.random() * 10000000000} center>
-            <Fragment>
-              <MDBBtn
-                onClick={() => setModal(true)}
-                outline
-                color='info'
-                size='sm'
-                style={{ margin: "auto" }}
-              >
-                More Info
-              </MDBBtn>
-            </Fragment>
+          <MDBCardFooter key={Math.random() * 10000000000} className='center'>
+            <MDBBtn
+              onClick={() => setModal(true)}
+              outline
+              color='info'
+              size='sm'
+              style={{ display: "block", maxWidth: "300px", margin: "auto" }}
+            >
+              More Info
+            </MDBBtn>
           </MDBCardFooter>
         </MDBCardBody>
       </MDBCard>
@@ -112,6 +110,7 @@ export default props => {
             outline
             size='sm'
             onClick={() => setModal(false)}
+            style={{ display: "block", maxWidth: "300px", margin: "auto" }}
           >
             Close
           </MDBBtn>
