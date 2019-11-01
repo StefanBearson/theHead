@@ -70,7 +70,7 @@ function App() {
       shortNumber: person.shortNumber,
       department: departmentName
     };
-  }
+  };
 
   const fetchCountriesAndDepartments = () => {
         let response = fetch(`${hostUrl}umbraco/api/peoplesorting/departmentsandcountries`).then(x=>x.json()).then(x=> {
