@@ -91,7 +91,7 @@ export default props => {
       </MDBCard>
       <MDBModal isOpen={modal}>
         <MDBModalHeader className='blue-gradient' style={{ height: "160px" }}>
-          <img
+          <img alt={"Nice people"}
             src={
               "https://randomuser.me/api/portraits/men/" + photonumber + ".jpg"
             }
