@@ -12,25 +12,16 @@ import {
   MDBModalFooter,
   MDBBtn
 } from "mdbreact";
-// import { number } from "prop-types";
 
 export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
   const [modal, setModal] = useState(false);
 
-  var number =
+  const number =
     props.result.employmentNumber[0] + props.result.employmentNumber[1];
 
-  var photonumber = number.replace("0", 1);
+  const photonumber = number.replace("0", 1);
 
-  console.log("1: ", props.result.employmentNumber[0]);
-  console.log("2: ", props.result.employmentNumber[1]);
-  console.log("3: ", number);
-
-  var image =
-    "https://randomuser.me/api/portraits/med/men/" +
-    Math.floor(Math.random() * 100) +
-    ".jpg";
   return (
     <MDBCol
       lg='4'
@@ -39,11 +30,6 @@ export default props => {
       key={Math.random() * 10000000000}
     >
       <img
-        // src={
-        //   "https://randomuser.me/api/portraits/med/men/" +
-        //   Math.floor(Math.random() * 100) +
-        //   ".jpg"
-        // }
         src={
           "https://randomuser.me/api/portraits/med/men/" + photonumber + ".jpg"
         }
@@ -59,25 +45,6 @@ export default props => {
         alt='face'
       ></img>
       <MDBCard style={{ margin: "8px" }}>
-        {/* <MDBCardImage
-          key={Math.random() * 10000000000}
-          className='img-fluid'
-          onClick={() => setModal(true)}
-          style={{
-            width: "20%",
-
-            marginLeft: "40%",
-            padding: "8px 0",
-            borderRadius: "50%",
-            position: "relative",
-            top: ""
-          }}
-          src={
-            "http://lorempixel.com/200/200/people/" +
-            Math.floor(Math.random() * 10)
-          }
-          waves
-        /> */}
         <MDBCardBody style={{ padding: 0 }} key={Math.random() * 10000000000}>
           <MDBCardTitle
             key={Math.random() * 10000000000}
@@ -105,7 +72,7 @@ export default props => {
           </MDBCardText>
           <MDBCardText
             key={Math.random() * 10000000000}
-            style={{ paddingLeft: "8px" }}
+            style={{ padding: "8px", margin: "0" }}
           >
             Internal Phone: {props.result.shortNumber}
           </MDBCardText>
@@ -142,14 +109,14 @@ export default props => {
             style={{
               position: "relative",
               top: "-40px",
-              left: "-118px",
+              left: "-115px",
               color: "white"
             }}
           >
             {props.result.firstName + " " + props.result.lastName}
           </span>
         </MDBModalHeader>
-        <MDBModalBody>
+        <MDBModalBody style={{ color: "dimgray" }}>
           Department: {props.result.department}
           <br />
           E-Mail: {props.result.eMail} <br />
