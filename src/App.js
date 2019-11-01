@@ -4,7 +4,6 @@ import Contact from "./Components/Contact";
 import { MDBContainer, MDBRow } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
 
-
 import {
   MDBDropdown,
   MDBDropdownToggle,
@@ -12,27 +11,30 @@ import {
   MDBDropdownItem
 } from "mdbreact";
 
-
 function App() {
   const hostUrl = "https://localhost:44319/";
   const [pageTitle, setPageTitle] = useState("");
   const [fetchPath, setFetchPath] = useState("people/sweden");
   const [fetchedPeople, setFetchedPeople] = useState([]);
 
-  const [search, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [search, setSearch] = useState("");
 
   const handleChange = event => {
-    setSearchTerm(event.target.value);
+    setSearch(event.target.value);
   };
 
   useEffect(() => {
-    const results = fetchedPeople.filter(p => p.firstName.toLowerCase().includes(search));
-    setSearchResults(results);
+    if (search == "") {
+      getData(`${fetchPath}`);
+    }
+    const results = fetchedPeople.filter(p =>
+      p.firstName.toLowerCase().includes(search.toLowerCase())
+    );
     setFetchedPeople(results);
   }, [search]);
 
   useEffect(() => {
+    console.log("path: ", fetchPath);
     getData(`${fetchPath}`);
   }, [fetchPath]);
 
@@ -44,7 +46,6 @@ function App() {
     );
     setPageTitle(getPageTitle(response));
     setFetchedPeople(getFetchedPeople(response));
-    console.log(response);
   };
 
   const getFetchedPeople = array => {
@@ -110,16 +111,13 @@ function App() {
     return "Search employees";
   };
 
-  
-
-
   return (
     <>
-      <SectionHeader />
+      <SectionHeader title={pageTitle} />
       <MDBContainer style={{ marginTop: "2%", marginBottom: "2%" }}>
         <MDBRow>
           <MDBDropdown>
-            <MDBDropdownToggle caret color="primary">
+            <MDBDropdownToggle caret color='primary'>
               Countries
             </MDBDropdownToggle>
             <MDBDropdownMenu basic>
@@ -132,7 +130,7 @@ function App() {
             </MDBDropdownMenu>
           </MDBDropdown>
           <MDBDropdown>
-            <MDBDropdownToggle caret color="primary">
+            <MDBDropdownToggle caret color='primary'>
               Departments
             </MDBDropdownToggle>
             <MDBDropdownMenu basic>
@@ -155,13 +153,16 @@ function App() {
           </MDBDropdown>
         </MDBRow>
       </MDBContainer>
-      <MDBContainer>     
-          <MDBRow>
-            <input className="searchbar" type="text" placeholder="Search..."
-              value={search}
-              onChange={handleChange}
-            />
-          </MDBRow>  
+      <MDBContainer>
+        <MDBRow>
+          <input
+            className='searchbar'
+            type='text'
+            placeholder='Search...'
+            value={search}
+            onChange={handleChange}
+          />
+        </MDBRow>
         <MDBRow>
           {fetchedPeople.map((people, index) => {
             return <Contact key={index} result={people} />;
