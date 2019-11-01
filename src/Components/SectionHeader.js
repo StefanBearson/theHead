@@ -14,7 +14,7 @@ export default props => {
           backgroundPosition: "center"
         }}
       >
-        <MDBContainer style={{ paddingTop: "17vh" }}>
+        <MDBContainer style={{ paddingTop: "17vh", textAlign: "center" }}>
           <h2
             className='h1-responsive'
             style={{

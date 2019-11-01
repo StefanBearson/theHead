@@ -3,7 +3,6 @@ import "./App.css";
 import Contact from "./Components/Contact";
 import { MDBContainer, MDBRow } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
-import InputField from "./Components/SaveTextFieldValue.js";
 import {
   MDBDropdown,
   MDBDropdownToggle,
@@ -13,8 +12,8 @@ import {
 
 function App() {
   const hostUrl = "https://localhost:44319/";
-  const [pageTitle, setPageTitle] = useState("");
-  const [fetchPath, setFetchPath] = useState("people");
+  const [pageTitle, setPageTitle] = useState("People");
+  const [fetchPath, setFetchPath] = useState("people/sweden");
   const [fetchedPeople, setFetchedPeople] = useState([]);
   const [fetchedFilterOptions, setFetchedFilterOptions] = useState({});
 
@@ -29,11 +28,11 @@ function App() {
       getData(`${fetchPath}`);
     }
     const results = fetchedPeople.filter(p =>
-      p.firstName.toLowerCase().includes(search.toLowerCase())
+      p.firstName.toLowerCase().includes(search.toLowerCase()) || p.lastName.toLowerCase().includes(search.toLowerCase())
     );
     setFetchedPeople(results);
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, fetchPath]);
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -85,7 +84,7 @@ function App() {
   };
 
   const fetchCountriesAndDepartments = () => {
-        let response = fetch(`${hostUrl}umbraco/api/peoplesorting/departmentsandcountries`).then(x=>x.json()).then(x=> {
+        fetch(`${hostUrl}umbraco/api/peoplesorting/departmentsandcountries`).then(x=>x.json()).then(x=> {
           let departmentsArray = x.departments.map(x=>x.map(prop => prop));
         let departments = departmentsArray.map(x=> {
           return {
@@ -120,7 +119,7 @@ function App() {
 
   return (
     <>
-      <SectionHeader headerText={pageTitle}/>
+      <SectionHeader title={pageTitle}/>
       <MDBContainer style={{ marginTop: "2%", marginBottom: "2%" }}>
         <MDBRow>
           <MDBDropdown>
