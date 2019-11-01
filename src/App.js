@@ -27,7 +27,7 @@ function App() {
       getData(`${fetchPath}`);
     }
     const results = fetchedPeople.filter(p =>
-      p.firstName.toLowerCase().includes(search.toLowerCase())
+      p.firstName.toLowerCase().includes(search.toLowerCase()) || p.lastName.toLowerCase().includes(search.toLowerCase())
     );
     setFetchedPeople(results);
     //eslint-disable-next-line react-hooks/exhaustive-deps

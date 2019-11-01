@@ -20,7 +20,8 @@ export default props => {
             style={{
               color: "white",
               backgroundColor: "rgba(0, 0, 0, 0.29)",
-              padding: "0.5em"
+              padding: "0.5em",
+                fontFamily: "Arial Black"
             }}
           >
             {props.title}
