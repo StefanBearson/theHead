@@ -3,7 +3,8 @@ import "./App.css";
 import Contact from "./Components/Contact";
 import { MDBContainer, MDBRow } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
-import InputField from "./Components/SaveTextFieldValue.js";
+
+
 import {
   MDBDropdown,
   MDBDropdownToggle,
@@ -11,13 +12,25 @@ import {
   MDBDropdownItem
 } from "mdbreact";
 
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 
 function App() {
   const hostUrl = "https://localhost:44319/";
   const [pageTitle, setPageTitle] = useState("");
   const [fetchPath, setFetchPath] = useState("people/sweden");
   const [fetchedPeople, setFetchedPeople] = useState([]);
+
+  const [search, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+  };
+
+  useEffect(() => {
+    const results = fetchedPeople.filter(p => p.firstName.toLowerCase().includes(search));
+    setSearchResults(results);
+    setFetchedPeople(results);
+  }, [search]);
 
   useEffect(() => {
     getData(`${fetchPath}`);
@@ -97,6 +110,9 @@ function App() {
     return "Search employees";
   };
 
+  
+
+
   return (
     <>
       <SectionHeader />
@@ -139,10 +155,13 @@ function App() {
           </MDBDropdown>
         </MDBRow>
       </MDBContainer>
-      <MDBContainer>
-        <MDBRow>
-          <InputField />
-        </MDBRow>
+      <MDBContainer>     
+          <MDBRow>
+            <input className="searchbar" type="text" placeholder="Search..."
+              value={search}
+              onChange={handleChange}
+            />
+          </MDBRow>  
         <MDBRow>
           {fetchedPeople.map((people, index) => {
             return <Contact key={index} result={people} />;
