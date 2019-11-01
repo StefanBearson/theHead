@@ -3,7 +3,6 @@ import "./App.css";
 import Contact from "./Components/Contact";
 import { MDBContainer, MDBRow } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
-
 import {
   MDBDropdown,
   MDBDropdownToggle,
