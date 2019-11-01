@@ -10,14 +10,14 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem
 } from "mdbreact";
-
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
+import { resolve } from "q";
 
 function App() {
   const hostUrl = "https://localhost:44319/";
   const [pageTitle, setPageTitle] = useState("");
-  const [fetchPath, setFetchPath] = useState("people/sweden");
+  const [fetchPath, setFetchPath] = useState("people");
   const [fetchedPeople, setFetchedPeople] = useState([]);
+  const [fetchedFilterOptions, setFetchedFilterOptions] = useState({});
 
   useEffect(() => {
     getData(`${fetchPath}`);
@@ -31,7 +31,7 @@ function App() {
     );
     setPageTitle(getPageTitle(response));
     setFetchedPeople(getFetchedPeople(response));
-    console.log(response);
+    fetchCountriesAndDepartments();
   };
 
   const getFetchedPeople = array => {
@@ -39,15 +39,7 @@ function App() {
       let departmentsRaw = array.countries.map(x => x.departments);
       let departments = departmentsRaw.flat([1]).map(x => {
         return x.people.map(person => {
-          return {
-            firstName: person.firstName,
-            lastName: person.lastName,
-            phoneNumbers: person.phoneNumbers,
-            employmentNumber: person.employmentNumber,
-            eMail: person.eMail,
-            shortNumber: person.shortNumber,
-            department: x.departmentName
-          };
+          return buildPerson(x.departmentName, person);
         });
       });
       return departments.flat([2]);
@@ -55,33 +47,50 @@ function App() {
     if (arrayNesting === 2) {
       let departments = array.departments.map(x => {
         return x.people.map(person => {
-          return {
-            firstName: person.firstName,
-            lastName: person.lastName,
-            phoneNumbers: person.phoneNumbers,
-            employmentNumber: person.employmentNumber,
-            eMail: person.eMail,
-            shortNumber: person.shortNumber,
-            department: x.departmentName
-          };
+          return buildPerson(x.departmentName, person);
         });
       });
       return departments.flat([2]);
     }
     if (arrayNesting === 3) {
       let people = array.people.map(person => {
-        return {
-          firstName: person.firstName,
-          lastName: person.lastName,
-          phoneNumbers: person.phoneNumbers,
-          employmentNumber: person.employmentNumber,
-          eMail: person.eMail,
-          shortNumber: person.shortNumber,
-          department: array.departmentName
-        };
+        return buildPerson(array.departmentName, person);
       });
       return people.flat([2]);
     }
+  };
+
+  const buildPerson = (departmentName, person) =>{
+    return {
+      firstName: person.firstName,
+      lastName: person.lastName,
+      phoneNumbers: person.phoneNumbers,
+      employmentNumber: person.employmentNumber,
+      eMail: person.eMail,
+      shortNumber: person.shortNumber,
+      department: departmentName
+    };
+  }
+
+  const fetchCountriesAndDepartments = () => {
+        let response = fetch(`${hostUrl}umbraco/api/peoplesorting/departmentsandcountries`).then(x=>x.json()).then(x=> {
+          let departmentsArray = x.departments.map(x=>x.map(prop => prop));
+        let departments = departmentsArray.map(x=> {
+          return {
+            departmentName : x[0].Value,
+            belongingCountry : x[1].Value,
+            slug : `people/${x[1].Value}/${x[0].Value.replace(" ", "-")}`
+          }
+        });
+
+        let countriesArray = x.countries.map(x=> {
+          return {
+            countryName : x[0].Value,
+            slug : `people/${x[0].Value}`
+          }
+        });
+        setFetchedFilterOptions( {countries : countriesArray, departments : departments});
+        });
   };
 
   const getPageTitle = array => {
@@ -99,7 +108,7 @@ function App() {
 
   return (
     <>
-      <SectionHeader />
+      <SectionHeader headerText={pageTitle}/>
       <MDBContainer style={{ marginTop: "2%", marginBottom: "2%" }}>
         <MDBRow>
           <MDBDropdown>
@@ -107,11 +116,13 @@ function App() {
               Countries
             </MDBDropdownToggle>
             <MDBDropdownMenu basic>
-              <MDBDropdownItem onClick={() => setFetchPath("people/sweden")}>
-                Sweden
-              </MDBDropdownItem>
-              <MDBDropdownItem onClick={() => setFetchPath("people/usa")}>
-                USA
+              {fetchedFilterOptions.countries === undefined ? "" : fetchedFilterOptions.countries.map((country, key) => {
+                return <MDBDropdownItem key={key} onClick={() => setFetchPath(`${country.slug}`)}>
+                  {country.countryName}
+                </MDBDropdownItem>
+              })}
+              <MDBDropdownItem onClick={() => setFetchPath("people")}>
+                All
               </MDBDropdownItem>
             </MDBDropdownMenu>
           </MDBDropdown>
@@ -120,20 +131,13 @@ function App() {
               Departments
             </MDBDropdownToggle>
             <MDBDropdownMenu basic>
-              <MDBDropdownItem
-                onClick={() => setFetchPath("people/sweden/region-syd")}
-              >
-                Region Syd
-              </MDBDropdownItem>
-              <MDBDropdownItem
-                onClick={() => setFetchPath("people/usa/region-west")}
-              >
-                Region WEST
-              </MDBDropdownItem>
-              <MDBDropdownItem
-                onClick={() => setFetchPath("people/usa/region-south")}
-              >
-                Region SOUTH
+              {fetchedFilterOptions.departments === undefined ? "" : fetchedFilterOptions.departments.map((departments, key) => {
+                return <MDBDropdownItem key={key} onClick={() => setFetchPath(`${departments.slug}`)}>
+                  {departments.departmentName}
+                </MDBDropdownItem>
+              })}
+              <MDBDropdownItem onClick={() =>setFetchPath("people")}>
+                All
               </MDBDropdownItem>
             </MDBDropdownMenu>
           </MDBDropdown>
