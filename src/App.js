@@ -3,7 +3,6 @@ import "./App.css";
 import Contact from "./Components/Contact";
 import { MDBContainer, MDBRow } from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
-import InputField from "./Components/SaveTextFieldValue.js";
 import {
   MDBDropdown,
   MDBDropdownToggle,
@@ -141,7 +140,6 @@ function App() {
       </MDBContainer>
       <MDBContainer>
         <MDBRow>
-          <InputField />
         </MDBRow>
         <MDBRow>
           {fetchedPeople.map((people, index) => {
