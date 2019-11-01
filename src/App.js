@@ -23,18 +23,20 @@ function App() {
   };
 
   useEffect(() => {
-    if (search == "") {
+    if (search === "") {
       getData(`${fetchPath}`);
     }
     const results = fetchedPeople.filter(p =>
       p.firstName.toLowerCase().includes(search.toLowerCase())
     );
     setFetchedPeople(results);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   useEffect(() => {
     console.log("path: ", fetchPath);
     getData(`${fetchPath}`);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchPath]);
 
   const arrayNesting = fetchPath.split("/").length;
