@@ -10,17 +10,28 @@ import {
   MDBDropdownItem
 } from "mdbreact";
 
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
-
 function App() {
   const hostUrl = "https://localhost:44319/";
   const [pageTitle, setPageTitle] = useState("");
   const [fetchPath, setFetchPath] = useState("people/sweden");
   const [fetchedPeople, setFetchedPeople] = useState([]);
 
+  const [search, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleChange = event => {
+    setSearchTerm(event.target.value);
+  };
+
+  useEffect(() => {
+    const results = fetchedPeople.filter(p => p.firstName.toLowerCase().includes(search));
+    setSearchResults(results);
+    setFetchedPeople(results);
+  }, [search]);
+
   useEffect(() => {
     getData(`${fetchPath}`);
-  }, []);
+  }, [fetchPath]);
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -138,9 +149,13 @@ function App() {
           </MDBDropdown>
         </MDBRow>
       </MDBContainer>
-      <MDBContainer>
-        <MDBRow>
-        </MDBRow>
+      <MDBContainer>     
+          <MDBRow>
+            <input className="searchbar" type="text" placeholder="Search..."
+              value={search}
+              onChange={handleChange}
+            />
+          </MDBRow>  
         <MDBRow>
           {fetchedPeople.map((people, index) => {
             return <Contact key={index} result={people} />;
