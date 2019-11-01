@@ -10,7 +10,6 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem
 } from "mdbreact";
-import { resolve } from "q";
 
 function App() {
   const hostUrl = "https://localhost:44319/";
@@ -19,9 +18,22 @@ function App() {
   const [fetchedPeople, setFetchedPeople] = useState([]);
   const [fetchedFilterOptions, setFetchedFilterOptions] = useState({});
 
+  const [search, setSearch] = useState("");
+
+  const handleChange = event => {
+    setSearch(event.target.value);
+  };
+
   useEffect(() => {
-    getData(`${fetchPath}`);
-  }, [fetchPath]);
+    if (search === "") {
+      getData(`${fetchPath}`);
+    }
+    const results = fetchedPeople.filter(p =>
+      p.firstName.toLowerCase().includes(search.toLowerCase())
+    );
+    setFetchedPeople(results);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -145,7 +157,13 @@ function App() {
       </MDBContainer>
       <MDBContainer>
         <MDBRow>
-          <InputField />
+          <input
+            className='searchbar'
+            type='text'
+            placeholder='Search...'
+            value={search}
+            onChange={handleChange}
+          />
         </MDBRow>
         <MDBRow>
           {fetchedPeople.map((people, index) => {

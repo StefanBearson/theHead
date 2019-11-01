@@ -12,12 +12,16 @@ import {
   MDBModalFooter,
   MDBBtn
 } from "mdbreact";
+<<<<<<< HEAD
 // import { number } from "prop-types";
+=======
+>>>>>>> develop
 
 export default props => {
   const phoneNumbersArray = props.result.phoneNumbers.split(",");
   const [modal, setModal] = useState(false);
 
+<<<<<<< HEAD
   var number =
     props.result.employmentNumber[0] + props.result.employmentNumber[1];
 
@@ -31,6 +35,13 @@ export default props => {
     "https://randomuser.me/api/portraits/med/men/" +
     Math.floor(Math.random() * 100) +
     ".jpg";
+=======
+  const number =
+    props.result.employmentNumber[0] + props.result.employmentNumber[1];
+
+  const photonumber = number.replace("0", 1);
+
+>>>>>>> develop
   return (
     <MDBCol
       lg='4'
@@ -39,11 +50,14 @@ export default props => {
       key={Math.random() * 10000000000}
     >
       <img
+<<<<<<< HEAD
         // src={
         //   "https://randomuser.me/api/portraits/med/men/" +
         //   Math.floor(Math.random() * 100) +
         //   ".jpg"
         // }
+=======
+>>>>>>> develop
         src={
           "https://randomuser.me/api/portraits/med/men/" + photonumber + ".jpg"
         }
@@ -59,6 +73,7 @@ export default props => {
         alt='face'
       ></img>
       <MDBCard style={{ margin: "8px" }}>
+<<<<<<< HEAD
         {/* <MDBCardImage
           key={Math.random() * 10000000000}
           className='img-fluid'
@@ -78,6 +93,8 @@ export default props => {
           }
           waves
         /> */}
+=======
+>>>>>>> develop
         <MDBCardBody style={{ padding: 0 }} key={Math.random() * 10000000000}>
           <MDBCardTitle
             key={Math.random() * 10000000000}
@@ -105,7 +122,11 @@ export default props => {
           </MDBCardText>
           <MDBCardText
             key={Math.random() * 10000000000}
+<<<<<<< HEAD
             style={{ paddingLeft: "8px" }}
+=======
+            style={{ padding: "8px", margin: "0" }}
+>>>>>>> develop
           >
             Internal Phone: {props.result.shortNumber}
           </MDBCardText>
@@ -124,7 +145,11 @@ export default props => {
       </MDBCard>
       <MDBModal isOpen={modal}>
         <MDBModalHeader className='blue-gradient' style={{ height: "160px" }}>
+<<<<<<< HEAD
           <img
+=======
+          <img alt={"Nice people"}
+>>>>>>> develop
             src={
               "https://randomuser.me/api/portraits/men/" + photonumber + ".jpg"
             }
@@ -142,14 +167,22 @@ export default props => {
             style={{
               position: "relative",
               top: "-40px",
+<<<<<<< HEAD
               left: "-118px",
+=======
+              left: "-115px",
+>>>>>>> develop
               color: "white"
             }}
           >
             {props.result.firstName + " " + props.result.lastName}
           </span>
         </MDBModalHeader>
+<<<<<<< HEAD
         <MDBModalBody>
+=======
+        <MDBModalBody style={{ color: "dimgray" }}>
+>>>>>>> develop
           Department: {props.result.department}
           <br />
           E-Mail: {props.result.eMail} <br />

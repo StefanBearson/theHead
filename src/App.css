@@ -21,7 +21,11 @@
   color: #09d3ac;
 }
 
+<<<<<<< HEAD
 .lcv-searchbar {
+=======
+.searchbar {
+>>>>>>> develop
   width: 70%;
   outline: none;
   margin: auto;
