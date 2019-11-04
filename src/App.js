@@ -35,6 +35,7 @@ function App() {
   useEffect(() => {
     setTempPeople(fetchedPeople);
     tempPep = fetchedPeople;
+
   }, [fetchedPeople]);
 
   useEffect(() => {
@@ -50,6 +51,11 @@ function App() {
     setTempPeople(tempPep)
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
+
+  useEffect(() => {
+    getData(`${fetchPath}`);
+    setSearch("")
+  }, [fetchPath])
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -140,109 +146,74 @@ function App() {
     return "Search employees";
   };
 
-  return ( <
-    >
-    <
-    SectionHeader title = {
+  return (< >
+    <SectionHeader title={
       pageTitle
     }
-    /> <
-    MDBContainer style = {
-      {
-        marginTop: "2%",
-        marginBottom: "2%"
-      }
-    } >
-    <
-    MDBRow >
-    <
-    MDBDropdown >
-    <
-    MDBDropdownToggle caret color = 'primary' >
-    Countries <
-    /MDBDropdownToggle> <
-    MDBDropdownMenu basic > {
-      fetchedFilterOptions.countries === undefined ?
-      "" : fetchedFilterOptions.countries.map((country, key) => {
-        return ( <
-          MDBDropdownItem key = {
-            key
-          }
-          onClick = {
-            () => setFetchPath(`${country.slug}`)
-          } > {
-            country.countryName
-          } <
-          /MDBDropdownItem>
-        );
-      })
-    } <
-    MDBDropdownItem onClick = {
-      () => setFetchPath("people")
-    } >
-    All <
-    /MDBDropdownItem> < /
-    MDBDropdownMenu > <
-    /MDBDropdown> <
-    MDBDropdown >
-    <
-    MDBDropdownToggle caret color = 'primary' >
-    Departments <
-    /MDBDropdownToggle> <
-    MDBDropdownMenu basic > {
-      fetchedFilterOptions.departments === undefined ?
-      "" : fetchedFilterOptions.departments.map((departments, key) => {
-        return ( <
-          MDBDropdownItem key = {
-            key
-          }
-          onClick = {
-            () => setFetchPath(`${departments.slug}`)
-          } > {
-            departments.departmentName
-          } <
-          /MDBDropdownItem>
-        );
-      })
-    } <
-    MDBDropdownItem onClick = {
-      () => setFetchPath("people")
-    } >
-    All <
-    /MDBDropdownItem> < /
-    MDBDropdownMenu > <
-    /MDBDropdown> < /
-    MDBRow > <
-    /MDBContainer> <
-    MDBContainer >
-    <
-    MDBRow >
-    <
-    input className = 'searchbar'
-    type = 'text'
-    placeholder = 'Search...'
-    value = {
-      search
+    /> <MDBContainer style={{
+      marginTop: "2%",
+      marginBottom: "2%"
     }
-    onChange = {
-      handleChange
-    }
-    /> < /
-    MDBRow > <
-    MDBRow > {
-      tempPep.map((people, index) => {
-        return <Contact key = {
-          index
-        }
-        result = {
-          people
-        }
-        />;
-      })
-    } <
-    /MDBRow> < /
-    MDBContainer > <
-    />
+    } >
+      <MDBRow >
+        <MDBDropdown >
+          <MDBDropdownToggle caret color='primary' >
+            Countries </MDBDropdownToggle> <MDBDropdownMenu basic > {
+              fetchedFilterOptions.countries === undefined ?
+                "" : fetchedFilterOptions.countries.map((country, key) => {
+                  return (<MDBDropdownItem key={
+                    key
+                  }
+                    onClick={
+                      () => setFetchPath(`${country.slug}`)
+                    } > {
+                      country.countryName
+                    } </MDBDropdownItem>
+                  );
+                })
+            } <MDBDropdownItem onClick={
+              () => setFetchPath("people")
+            } >
+              All </MDBDropdownItem> </MDBDropdownMenu > </MDBDropdown> <MDBDropdown >
+          <MDBDropdownToggle caret color='primary' >
+            Departments </MDBDropdownToggle> <MDBDropdownMenu basic > {
+              fetchedFilterOptions.departments === undefined ?
+                "" : fetchedFilterOptions.departments.map((departments, key) => {
+                  return (< MDBDropdownItem key={
+                    key
+                  }
+                    onClick={
+                      () => setFetchPath(`${departments.slug}`)
+                    } > {
+                      departments.departmentName
+                    } </MDBDropdownItem>
+                  );
+                })
+            } <MDBDropdownItem onClick={
+              () => setFetchPath("people")
+            } >
+              All </MDBDropdownItem> </MDBDropdownMenu > </MDBDropdown> </MDBRow > </MDBContainer> <MDBContainer >
+      <MDBRow >
+        < input className='searchbar'
+          type='text'
+          placeholder='Search...'
+          value={
+            search
+          }
+          onChange={
+            handleChange
+          }
+        /> </MDBRow > <MDBRow > {
+          tempPep.map((people, index) => {
+            return <Contact key={
+              index
+            }
+              result={
+                people
+              }
+            />;
+          })
+        } </MDBRow> </MDBContainer > </>
   );
 }
 
