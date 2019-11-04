@@ -36,6 +36,8 @@ function App() {
     setTempPeople(fetchedPeople);
     tempPep = fetchedPeople;
 
+    console.log(tempPeople)
+
   }, [fetchedPeople]);
 
   useEffect(() => {
