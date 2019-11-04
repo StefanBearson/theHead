@@ -28,7 +28,7 @@ function App() {
       getData(`${fetchPath}`);
     }
     const results = fetchedPeople.filter(p =>
-      p.firstName.toLowerCase().includes(search.toLowerCase()) || p.lastName.toLowerCase().includes(search.toLowerCase())
+      p.fullName.toLowerCase().includes(search.toLowerCase())
     );
     setFetchedPeople(results);
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,7 +79,8 @@ function App() {
       employmentNumber: person.employmentNumber,
       eMail: person.eMail,
       shortNumber: person.shortNumber,
-      department: departmentName
+      department: departmentName,
+      fullName: `${person.firstName} ${person.lastName}`
     };
   };
 
