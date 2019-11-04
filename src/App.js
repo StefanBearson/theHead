@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect
+} from "react";
 import "./App.css";
 import Contact from "./Components/Contact";
-import { MDBContainer, MDBRow } from "mdbreact";
+import {
+  MDBContainer,
+  MDBRow
+} from "mdbreact";
 import SectionHeader from "./Components/SectionHeader";
 import {
   MDBDropdown,
@@ -9,6 +15,7 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem
 } from "mdbreact";
+let tempPep = [];
 
 function App() {
   const hostUrl = "https://localhost:44319/";
@@ -17,6 +24,8 @@ function App() {
   const [fetchedPeople, setFetchedPeople] = useState([]);
   const [fetchedFilterOptions, setFetchedFilterOptions] = useState({});
 
+  const [tempPeople, setTempPeople] = useState([]);
+
   const [search, setSearch] = useState("");
 
   const handleChange = event => {
@@ -24,15 +33,23 @@ function App() {
   };
 
   useEffect(() => {
+    setTempPeople(fetchedPeople);
+    tempPep = fetchedPeople;
+  }, [fetchedPeople]);
+
+  useEffect(() => {
     if (search === "") {
       getData(`${fetchPath}`);
     }
-    const results = fetchedPeople.filter(p =>
+
+    tempPep = fetchedPeople;
+    const results = tempPep.filter(p =>
       p.fullName.toLowerCase().includes(search.toLowerCase())
     );
-    setFetchedPeople(results);
+    tempPep = results;
+    setTempPeople(tempPep)
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, fetchPath]);
+  }, [search]);
 
   const arrayNesting = fetchPath.split("/").length;
 
@@ -71,7 +88,7 @@ function App() {
     }
   };
 
-  const buildPerson = (departmentName, person) =>{
+  const buildPerson = (departmentName, person) => {
     return {
       firstName: person.firstName,
       lastName: person.lastName,
@@ -85,24 +102,29 @@ function App() {
   };
 
   const fetchCountriesAndDepartments = () => {
-        fetch(`${hostUrl}umbraco/api/peoplesorting/departmentsandcountries`).then(x=>x.json()).then(x=> {
-          let departmentsArray = x.departments.map(x=>x.map(prop => prop));
-        let departments = departmentsArray.map(x=> {
+    fetch(`${hostUrl}umbraco/api/peoplesorting/departmentsandcountries`)
+      .then(x => x.json())
+      .then(x => {
+        let departmentsArray = x.departments.map(x => x.map(prop => prop));
+        let departments = departmentsArray.map(x => {
           return {
-            departmentName : x[0].Value,
-            belongingCountry : x[1].Value,
-            slug : `people/${x[1].Value}/${x[0].Value.replace(" ", "-")}`
-          }
+            departmentName: x[0].Value,
+            belongingCountry: x[1].Value,
+            slug: `people/${x[1].Value}/${x[0].Value.replace(" ", "-")}`
+          };
         });
 
-        let countriesArray = x.countries.map(x=> {
+        let countriesArray = x.countries.map(x => {
           return {
-            countryName : x[0].Value,
-            slug : `people/${x[0].Value}`
-          }
+            countryName: x[0].Value,
+            slug: `people/${x[0].Value}`
+          };
         });
-        setFetchedFilterOptions( {countries : countriesArray, departments : departments});
+        setFetchedFilterOptions({
+          countries: countriesArray,
+          departments: departments
         });
+      });
   };
 
   const getPageTitle = array => {
@@ -118,60 +140,109 @@ function App() {
     return "Search employees";
   };
 
-  return (
-    <>
-      <SectionHeader title={pageTitle}/>
-      <MDBContainer style={{ marginTop: "2%", marginBottom: "2%" }}>
-        <MDBRow>
-          <MDBDropdown>
-            <MDBDropdownToggle caret color="primary">
-              Countries
-            </MDBDropdownToggle>
-            <MDBDropdownMenu basic>
-              {fetchedFilterOptions.countries === undefined ? "" : fetchedFilterOptions.countries.map((country, key) => {
-                return <MDBDropdownItem key={key} onClick={() => setFetchPath(`${country.slug}`)}>
-                  {country.countryName}
-                </MDBDropdownItem>
-              })}
-              <MDBDropdownItem onClick={() => setFetchPath("people")}>
-                All
-              </MDBDropdownItem>
-            </MDBDropdownMenu>
-          </MDBDropdown>
-          <MDBDropdown>
-            <MDBDropdownToggle caret color="primary">
-              Departments
-            </MDBDropdownToggle>
-            <MDBDropdownMenu basic>
-              {fetchedFilterOptions.departments === undefined ? "" : fetchedFilterOptions.departments.map((departments, key) => {
-                return <MDBDropdownItem key={key} onClick={() => setFetchPath(`${departments.slug}`)}>
-                  {departments.departmentName}
-                </MDBDropdownItem>
-              })}
-              <MDBDropdownItem onClick={() =>setFetchPath("people")}>
-                All
-              </MDBDropdownItem>
-            </MDBDropdownMenu>
-          </MDBDropdown>
-        </MDBRow>
-      </MDBContainer>
-      <MDBContainer>
-        <MDBRow>
-          <input
-            className='searchbar'
-            type='text'
-            placeholder='Search...'
-            value={search}
-            onChange={handleChange}
-          />
-        </MDBRow>
-        <MDBRow>
-          {fetchedPeople.map((people, index) => {
-            return <Contact key={index} result={people} />;
-          })}
-        </MDBRow>
-      </MDBContainer>
-    </>
+  return ( <
+    >
+    <
+    SectionHeader title = {
+      pageTitle
+    }
+    /> <
+    MDBContainer style = {
+      {
+        marginTop: "2%",
+        marginBottom: "2%"
+      }
+    } >
+    <
+    MDBRow >
+    <
+    MDBDropdown >
+    <
+    MDBDropdownToggle caret color = 'primary' >
+    Countries <
+    /MDBDropdownToggle> <
+    MDBDropdownMenu basic > {
+      fetchedFilterOptions.countries === undefined ?
+      "" : fetchedFilterOptions.countries.map((country, key) => {
+        return ( <
+          MDBDropdownItem key = {
+            key
+          }
+          onClick = {
+            () => setFetchPath(`${country.slug}`)
+          } > {
+            country.countryName
+          } <
+          /MDBDropdownItem>
+        );
+      })
+    } <
+    MDBDropdownItem onClick = {
+      () => setFetchPath("people")
+    } >
+    All <
+    /MDBDropdownItem> < /
+    MDBDropdownMenu > <
+    /MDBDropdown> <
+    MDBDropdown >
+    <
+    MDBDropdownToggle caret color = 'primary' >
+    Departments <
+    /MDBDropdownToggle> <
+    MDBDropdownMenu basic > {
+      fetchedFilterOptions.departments === undefined ?
+      "" : fetchedFilterOptions.departments.map((departments, key) => {
+        return ( <
+          MDBDropdownItem key = {
+            key
+          }
+          onClick = {
+            () => setFetchPath(`${departments.slug}`)
+          } > {
+            departments.departmentName
+          } <
+          /MDBDropdownItem>
+        );
+      })
+    } <
+    MDBDropdownItem onClick = {
+      () => setFetchPath("people")
+    } >
+    All <
+    /MDBDropdownItem> < /
+    MDBDropdownMenu > <
+    /MDBDropdown> < /
+    MDBRow > <
+    /MDBContainer> <
+    MDBContainer >
+    <
+    MDBRow >
+    <
+    input className = 'searchbar'
+    type = 'text'
+    placeholder = 'Search...'
+    value = {
+      search
+    }
+    onChange = {
+      handleChange
+    }
+    /> < /
+    MDBRow > <
+    MDBRow > {
+      tempPep.map((people, index) => {
+        return <Contact key = {
+          index
+        }
+        result = {
+          people
+        }
+        />;
+      })
+    } <
+    /MDBRow> < /
+    MDBContainer > <
+    />
   );
 }
 
