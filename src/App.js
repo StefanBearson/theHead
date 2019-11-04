@@ -36,7 +36,7 @@ function App() {
     setTempPeople(fetchedPeople);
     tempPep = fetchedPeople;
 
-    console.log(tempPeople)
+    //console.log(tempPeople)
 
   }, [fetchedPeople]);
 
